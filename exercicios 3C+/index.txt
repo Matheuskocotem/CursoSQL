@@ -1,0 +1,83 @@
+
+ 1 ) Tabela departamento
+
+CREATE TABLE departamento (
+    codDepartamento SERIAL PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL UNIQUE,
+    descricaoFuncional VARCHAR(80),
+    localizacao TEXT
+);
+
+
+2)Tabela estado:
+
+CREATE TABLE estado (
+	siglaEstado CHAR(2),
+    nome VARCHAR(30) NOT NULL UNIQUE,
+    PRIMARY KEY (siglaEstado)
+    
+);
+
+3) Tabela cidade 
+
+CREATE TABLE cidade (
+	CodCidade SERIAL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL UNIQUE,
+    siglaEstado CHAR(2)
+);
+
+4) Tabela vendedor 
+
+ CREATE TABLE vendedor (
+    codVendedor INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(60) NOT NULL,
+    dataNascimento DATE,
+    endereco VARCHAR(60),
+    cep CHAR(8),
+    telefone VARCHAR(20),
+    codCidade INT,
+    dataContratacao DATE DEFAULT CURRENT_DATE,
+    codDepartamento INT
+);
+
+
+5)Tabela vendedor:
+
+CREATE TABLE vendedor (
+    codVendedor INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(60) NOT NULL,
+    dataNascimento DATE,
+    endereco VARCHAR(60),
+    cep CHAR(8),
+    telefone VARCHAR(20),
+    codCidade INT,
+    dataContratacao DATE,
+    codDepartamento INT
+);
+
+
+6)Tabela cliente:
+
+7)Tabela clienteFisico:
+
+
+8)Tabela clienteJuridico:
+
+9)Tabela classe:
+
+10)Tabela produto:
+
+11)Tabela produtoLote:
+
+
+12)Tabela venda:
+
+13)Tabela itemVenda:
+
+14)Tabela fornecedor:
+
+15)Tabela pedido:
+
+16)Tabela itemPedido:
+
+
