@@ -1,0 +1,21 @@
+1) SELECT * FROM produtos;
+
+
+2)SELECT codigo, nomeFantasia, endereco, telefone, codCidade 
+  FROM fornecedores;
+
+
+3)SELECT codVenda, dataVenda
+  FROM vendas
+  WHERE status = 'Despachada';
+
+
+4) SELECT * FROM pessoasJuridicas;
+
+
+5)SELECT numeroLote
+  FROM produtos
+  WHERE dataValidade < CURRENT_DATE;
+
+
+6)SELECT nome FROM departamentos;

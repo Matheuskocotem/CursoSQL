@@ -1,0 +1,11 @@
+Tabel departamento:
+
+
+tabela estado
+
+Tabela cidade:
+
+CREATE TABLE cidade (
+	codCidade serial PRIMARY KEY,
+	nome varchar(50) UNIQUE NOT NULL,
+	siglaEstado char(2) NOT NULL REFERENCES estado(siglaEstado) ON DELETE no action ON UPDATE cascade);
