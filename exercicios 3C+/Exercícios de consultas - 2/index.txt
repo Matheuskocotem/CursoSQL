@@ -1,0 +1,61 @@
+1)
+SELECT vendedores.codigo,
+       vendedores.nome,
+       vendedores.endereco,
+       cidades.nome AS nome_cidade,
+       estados.nome AS nome_estado
+FROM vendedores
+JOIN cidades ON vendedores.cidade_id = cidades.id
+JOIN estados ON cidades.estado_id = estados.id;
+
+2)
+SELECT vendas.codigo,
+       vendas.data_venda,
+       vendedores.nome AS nome_vendedor
+FROM vendas
+JOIN vendedores ON vendas.vendedor_id = vendedores.id
+WHERE vendas.status = 'Despachada';
+
+3)
+SELECT clientes.*
+FROM clientes
+WHERE clientes.tipo = 'Física'
+AND clientes.endereco = 'Rua Marechal Floriano, 56';
+
+4)
+SELECT *
+FROM clientes
+WHERE tipo = 'Jurídica';
+
+5)
+SELECT clientes.nome_fantasia,
+       clientes.endereco,
+       clientes.telefone,
+       cidades.nome AS nome_cidade,
+       estados.sigla AS sigla_estado
+FROM clientes
+JOIN cidades ON clientes.cidade_id = cidades.id
+JOIN estados ON cidades.estado_id = estados.id
+WHERE clientes.tipo = 'Jurídica'
+AND clientes.data_cadastro BETWEEN '1999-01-01' AND '2003-06-30';
+
+6)
+SELECT DISTINCT vendedores.nome
+FROM vendas
+JOIN vendedores ON vendas.vendedor_id = vendedores.id
+JOIN clientes ON vendas.cliente_id = clientes.id
+WHERE clientes.tipo = 'Jurídica'
+AND clientes.nome_fantasia = 'Gelinski';
+
+7)
+SELECT produtos.codigo,
+       produtos.numero_lote,
+       produtos.nome
+FROM produtos
+WHERE produtos.data_validade < CURDATE();
+
+8)
+SELECT departamentos.nome AS nome_departamento,
+       vendedores.nome AS nome_vendedor
+FROM vendedores
+JOIN departamentos ON vendedores.departamento_id = departamentos.id;

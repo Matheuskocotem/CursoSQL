@@ -1,0 +1,73 @@
+1)
+SELECT codigo_pedido, data_realizacao, data_entrega, nome_fantasia 
+FROM pedido NATURAL JOIN fornecedor
+WHERE YEAR(data_realizacao) = 2014;
+
+2)
+SELECT v.nome, v.data_nascimento, c.nome AS cidade
+FROM vendedor v INNER JOIN cidade c ON v.cod_cidade = c.cod_cidade
+WHERE c.nome = 'Apucarana';
+
+3)
+SELECT v.codigo_venda, v.data_venda, vend.nome AS vendedor, l.numero_lote, p.descricao 
+FROM venda v 
+NATURAL JOIN vendedor vend 
+NATURAL JOIN lote l 
+NATURAL JOIN produto p
+WHERE p.descricao = 'Cal';
+
+4)
+SELECT c.sigla_classe, c.nome AS classe, p.codigo_produto, p.descricao, p.estoque_minimo
+FROM classe c INNER JOIN produto p ON c.sigla_classe = p.sigla_classe
+WHERE c.nome = 'Acabamentos';
+
+5)
+SELECT f.nome_fantasia, p.codigo_pedido, p.data_realizacao, p.data_entrega
+FROM fornecedor f INNER JOIN pedido p ON f.cod_fornecedor = p.cod_fornecedor
+WHERE f.nome_fantasia = 'Incepa';
+
+6)
+SELECT p.codigo_produto, p.descricao, v.codigo_venda
+FROM produto p LEFT JOIN venda v ON p.codigo_produto = v.codigo_produto;
+
+7)
+SELECT f.nome_fantasia, p.codigo_pedido, p.data_entrega
+FROM fornecedor f LEFT JOIN pedido p ON f.cod_fornecedor = p.cod_fornecedor;
+
+8)
+SELECT d.nome AS departamento, d.localizacao, v.nome AS funcionario, v.data_nascimento
+FROM departamento d RIGHT JOIN vendedor v ON d.cod_departamento = v.cod_departamento;
+
+9)
+SELECT COALESCE(cf.nome, cj.nome_fantasia) AS cliente, v.codigo_venda
+FROM cliente_fisico cf 
+RIGHT JOIN venda v ON cf.cod_cliente = v.cod_cliente
+FULL JOIN cliente_juridico cj ON cj.cod_cliente = v.cod_cliente;
+
+10)
+SELECT c.*, p.descricao, p.preco_custo
+FROM classe c LEFT JOIN produto p ON c.sigla_classe = p.sigla_classe;
+
+11)
+SELECT e.*, c.*
+FROM estado e RIGHT JOIN cidade c ON e.sigla_estado = c.sigla_estado;
+
+12)
+SELECT p.codigo_produto, p.descricao, l.numero_lote, l.data_validade
+FROM produto p LEFT JOIN lote l ON p.codigo_produto = l.codigo_produto;
+
+13)
+SELECT c.codigo_cidade, c.nome AS cidade, c.sigla_estado, v.nome AS vendedor, v.endereco, v.telefone
+FROM cidade c RIGHT JOIN vendedor v ON c.cod_cidade = v.cod_cidade;
+
+14)
+SELECT v.nome, v.data_contratacao, ven.codigo_venda, ven.data_venda
+FROM vendedor v LEFT JOIN venda ven ON v.cod_vendedor = ven.cod_vendedor;
+
+15)
+
+SELECT c.nome AS cidade, COALESCE(cf.nome, cj.nome_fantasia) AS cliente
+FROM cidade c 
+RIGHT JOIN cliente_fisico cf ON c.cod_cidade = cf.cod_cidade
+FULL JOIN cliente_juridico cj ON c.cod_cidade = cj.cod_cidade;
+
