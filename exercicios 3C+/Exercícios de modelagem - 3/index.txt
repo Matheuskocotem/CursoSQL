@@ -1,7 +1,19 @@
 Tabel departamento:
 
+CREATE TABLE departamento (
+    codDepartamento INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL UNIQUE,
+    descricaoFuncional VARCHAR(80),
+    localizacao TEXT
+);
 
-tabela estado
+
+tabela estado:
+
+CREATE TABLE estado (
+    siglaEstado CHAR(2) PRIMARY KEY,
+    nome VARCHAR(30) NOT NULL UNIQUE
+);
 
 Tabela cidade:
 
