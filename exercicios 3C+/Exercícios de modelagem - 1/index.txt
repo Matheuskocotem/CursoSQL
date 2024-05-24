@@ -58,26 +58,145 @@ CREATE TABLE vendedor (
 
 6)Tabela cliente:
 
+CREATE TABLE cliente (
+    codCliente SERIAL PRIMARY KEY,
+    endereco VARCHAR(60),
+    codCidade INT NOT NULL,
+    telefone VARCHAR(20),
+    tipo CHAR(1) CHECK (tipo IN ('F', 'J')),
+    dataCadastro DATE DEFAULT CURRENT_DATE,
+    cep CHAR(8),
+    CONSTRAINT fk_cli_cid FOREIGN KEY (codCidade) REFERENCES cidade(codCidade) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+
 7)Tabela clienteFisico:
+
+CREATE TABLE clienteFisico (
+    codCliente INT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    dataNascimento DATE,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    rg VARCHAR(8),
+    FOREIGN KEY (codCliente) REFERENCES cliente(codCliente) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
 
 
 8)Tabela clienteJuridico:
 
+CREATE TABLE clienteJuridico (
+    codCliente INT PRIMARY KEY,
+    nomeFantasia VARCHAR(80) UNIQUE,
+    razaoSocial VARCHAR(80) UNIQUE NOT NULL,
+    ie VARCHAR(20) NOT NULL UNIQUE,
+    cgc VARCHAR(20) NOT NULL UNIQUE,
+    FOREIGN KEY (codCliente) REFERENCES cliente(codCliente) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+
 9)Tabela classe:
+
+CREATE TABLE classe (
+    codClasse SERIAL PRIMARY KEY,
+    sigla VARCHAR(12),
+    nome VARCHAR(40) NOT NULL,
+    descricao VARCHAR(80)
+);
+
 
 10)Tabela produto:
 
+CREATE TABLE produto (
+    codProduto SERIAL PRIMARY KEY,
+    descricao VARCHAR(40) NOT NULL,
+    unidadeMedida CHAR(2),
+    embalagem VARCHAR(15) DEFAULT 'Fardo',
+    codClasse INT,
+    precoVenda NUMERIC(14,2),
+    estoqueMinimo NUMERIC(14,2),
+    FOREIGN KEY (codClasse) REFERENCES classe(codClasse) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+
 11)Tabela produtoLote:
+
+CREATE TABLE produtoLote (
+    codProduto INT,
+    numeroLote INT,
+    quantidadeAdquirida NUMERIC(14,2),
+    quantidadeVendida NUMERIC(14,2),
+    precoCusto NUMERIC(14,2),
+    dataValidade DATE,
+    PRIMARY KEY (codProduto, numeroLote),
+    FOREIGN KEY (codProduto) REFERENCES produto(codProduto) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 
 
 12)Tabela venda:
 
+CREATE TABLE venda (
+    codVenda INT PRIMARY KEY,
+    codCliente INT,
+    codVendedor INT,
+    dataVenda DATE DEFAULT CURRENT_DATE,
+    enderecoEntrega VARCHAR(60),
+    status VARCHAR(30),
+    FOREIGN KEY (codCliente) REFERENCES cliente(codCliente) ON DELETE CASCADE ON UPDATE NO ACTION,
+    FOREIGN KEY (codVendedor) REFERENCES vendedor(codVendedor) ON DELETE SET DEFAULT ON UPDATE CASCADE
+);
+
+
 13)Tabela itemVenda:
+
+CREATE TABLE itemVenda (
+    codVenda INT,
+    codProduto INT,
+    numeroLote INT,
+    quantidade NUMERIC(14,2) NOT NULL CHECK (quantidade > 0),
+    PRIMARY KEY (codVenda, codProduto, numeroLote),
+    FOREIGN KEY (codVenda) REFERENCES venda(codVenda) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (codProduto, numeroLote) REFERENCES produtoLote(codProduto, numeroLote) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
 
 14)Tabela fornecedor:
 
+CREATE TABLE fornecedor (
+    codFornecedor INT PRIMARY KEY,
+    nomeFantasia VARCHAR(80) UNIQUE,
+    razaoSocial VARCHAR(80) UNIQUE NOT NULL,
+    ie VARCHAR(20) NOT NULL UNIQUE,
+    cgc VARCHAR(20) NOT NULL UNIQUE,
+    endereco VARCHAR(60),
+    telefone VARCHAR(20),
+    codCidade INT,
+    FOREIGN KEY (codCidade) REFERENCES cidade(codCidade) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+
 15)Tabela pedido:
 
+CREATE TABLE pedido (
+    codPedido SERIAL PRIMARY KEY,
+    dataRealizacao DATE DEFAULT CURRENT_DATE,
+    dataEntrega DATE,
+    codFornecedor INT,
+    valor NUMERIC(20,2),
+    FOREIGN KEY (codFornecedor) REFERENCES fornecedor(codFornecedor) ON DELETE CASCADE ON UPDATE SET NULL
+);
+
+
 16)Tabela itemPedido:
+
+CREATE TABLE itemPedido (
+    codPedido INT,
+    codProduto INT,
+    quantidade NUMERIC(14,2) NOT NULL CHECK (quantidade > 0),
+    PRIMARY KEY (codPedido, codProduto),
+    FOREIGN KEY (codPedido) REFERENCES pedido(codPedido) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (codProduto) REFERENCES produto(codProduto) ON DELETE NO ACTION ON UPDATE CASCADE
+);
 
 
